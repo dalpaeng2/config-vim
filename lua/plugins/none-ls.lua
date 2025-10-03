@@ -5,9 +5,9 @@ return {
 		null_ls.setup({
 			sources = {
 				null_ls.builtins.formatting.stylua,
-        -- null_ls.builtins.formatting.ruby_lsp,
-        -- null_ls.builtins.diagnostics.ruby_lsp,
-      }
+				-- null_ls.builtins.formatting.ruby_lsp,
+				-- null_ls.builtins.diagnostics.ruby_lsp,
+			},
 		})
 
 		vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
