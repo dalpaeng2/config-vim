@@ -99,6 +99,16 @@ return {
 						capabilities = capabilities,
 						cmd = { "uvx", "ruff", "server" },
 					})
+          vim.lsp.enable("rust_analyzer")
+					vim.lsp.config("rust_analyzer", {
+						settings = {
+							["rust-analyzer"] = {
+								diagnostics = {
+									enable = false,
+								},
+							},
+						},
+					})
 
 					vim.diagnostic.config({
 						virtual_text = true,
