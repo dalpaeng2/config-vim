@@ -65,6 +65,9 @@ return {
               add_ruby_deps_command(client, buffer)
             end,
           })
+          vim.lsp.config("gopls", {
+            capabilities = capabilities,
+          })
 
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 					vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
