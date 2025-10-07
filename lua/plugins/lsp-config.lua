@@ -1,125 +1,165 @@
 return {
-	{
-		"mason-org/mason-lspconfig.nvim",
-		opts = {
-			ensure_installed = {
-				"lua_ls",
-				-- "ruby_lsp",
-				"gopls",
-			},
-		},
-		dependencies = {
-			{
-				"mason-org/mason.nvim",
-				opts = {},
-			},
-			{
-				"neovim/nvim-lspconfig",
-				config = function()
-					-- local lspconfig = require("lspconfig")
-					local function add_ruby_deps_command(client, bufnr)
-						vim.api.nvim_buf_create_user_command(bufnr, "ShowRubyDeps", function(opts)
-							local params = vim.lsp.util.make_text_document_params()
-							local showAll = opts.args == "all"
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = {
+        "lua_ls",
+        -- "ruby_lsp",
+        "gopls",
+      },
+    },
+    dependencies = {
+      {
+        "mason-org/mason.nvim",
+        opts = {},
+      },
+      {
+        "neovim/nvim-lspconfig",
+        config = function()
+          -- local lspconfig = require("lspconfig")
+          local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-							client.request("rubyLsp/workspace/dependencies", params, function(error, result)
-								if error then
-									print("Error showing deps: " .. error)
-									return
-								end
+          -- lua_ls
+          vim.lsp.enable("lua_ls")
+          vim.lsp.config("lua_ls", {
+            capabilities = capabilities,
+          })
 
-								local qf_list = {}
-								for _, item in ipairs(result) do
-									if showAll or item.dependency then
-										table.insert(qf_list, {
-											text = string.format(
-												"%s (%s) - %s",
-												item.name,
-												item.version,
-												item.dependency
-											),
-											filename = item.path,
-										})
-									end
-								end
+          -- ruby on rails
+          local function add_ruby_deps_command(client, bufnr)
+            vim.api.nvim_buf_create_user_command(bufnr, "ShowRubyDeps", function(opts)
+              local params = vim.lsp.util.make_text_document_params()
+              local showAll = opts.args == "all"
 
-								vim.fn.setqflist(qf_list)
-								vim.cmd("copen")
-							end, bufnr)
-						end, {
-							nargs = "?",
-							complete = function()
-								return { "all" }
-							end,
-						})
-					end
+              client.request("rubyLsp/workspace/dependencies", params, function(error, result)
+                if error then
+                  print("Error showing deps: " .. error)
+                  return
+                end
 
-					local capabilities = require("cmp_nvim_lsp").default_capabilities()
+                local qf_list = {}
+                for _, item in ipairs(result) do
+                  if showAll or item.dependency then
+                    table.insert(qf_list, {
+                      text = string.format(
+                        "%s (%s) - %s",
+                        item.name,
+                        item.version,
+                        item.dependency
+                      ),
+                      filename = item.path,
+                    })
+                  end
+                end
 
-					vim.lsp.enable("lua_ls")
-					vim.lsp.config("lua_ls", {
-						capabilities = capabilities,
-					})
-					vim.lsp.enable("ruby-lsp")
-					vim.lsp.config("ruby-lsp", {
-						capabilities = capabilities,
-						on_attach = function(client, buffer)
-							add_ruby_deps_command(client, buffer)
-						end,
-					})
-					vim.lsp.enable("gopls")
-					vim.lsp.config("gopls", {
-						capabilities = capabilities,
-					})
-					-- Autocommand to format Go files on save using LSP
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						pattern = "*.go",
-						callback = function()
-							local params = vim.lsp.util.make_range_params()
-							params.context = { only = { "source.organizeImports" } }
-							-- buf_request_sync defaults to a 1000ms timeout. Depending on your
-							-- machine and codebase, you may want longer. Add an additional
-							-- argument after params if you find that you have to write the file
-							-- twice for changes to be saved.
-							-- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-							local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params)
-							for cid, res in pairs(result or {}) do
-								for _, r in pairs(res.result or {}) do
-									if r.edit then
-										local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
-										vim.lsp.util.apply_workspace_edit(r.edit, enc)
-									end
-								end
-							end
-							vim.lsp.buf.format({ async = false })
-						end,
-					})
-					vim.lsp.enable("ruff")
-					vim.lsp.config("ruff", {
-						capabilities = capabilities,
-						cmd = { "uvx", "ruff", "server" },
-					})
+                vim.fn.setqflist(qf_list)
+                vim.cmd("copen")
+              end, bufnr)
+            end, {
+              nargs = "?",
+              complete = function()
+                return { "all" }
+              end,
+            })
+          end
+          vim.lsp.enable("ruby-lsp")
+          vim.lsp.config("ruby-lsp", {
+            capabilities = capabilities,
+            on_attach = function(client, buffer)
+              add_ruby_deps_command(client, buffer)
+            end,
+          })
+
+          -- golang
+          vim.lsp.enable("gopls")
+          vim.lsp.config("gopls", {
+            capabilities = capabilities,
+          })
+          -- Autocommand to format Go files on save using LSP
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = "*.go",
+            callback = function()
+              local params = vim.lsp.util.make_range_params()
+              params.context = { only = { "source.organizeImports" } }
+              -- buf_request_sync defaults to a 1000ms timeout. Depending on your
+              -- machine and codebase, you may want longer. Add an additional
+              -- argument after params if you find that you have to write the file
+              -- twice for changes to be saved.
+              -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+              local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params)
+              for cid, res in pairs(result or {}) do
+                for _, r in pairs(res.result or {}) do
+                  if r.edit then
+                    local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+                    vim.lsp.util.apply_workspace_edit(r.edit, enc)
+                  end
+                end
+              end
+              vim.lsp.buf.format({ async = false })
+            end,
+          })
+
+          -- python
+          local caps_utf16 = vim.tbl_deep_extend("force", capabilities, {
+            positionEncodings = { "utf-16" },
+          })
+          vim.lsp.enable("ruff")
+          vim.lsp.config("ruff", {
+            capabilities = caps_utf16,
+            cmd = { "uvx", "ruff", "server" },
+          })
+          -- Ruff가 attach될 때 hover 비활성화 (Pyright에게 맡김)
+          vim.api.nvim_create_autocmd("LspAttach", {
+            group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
+            callback = function(args)
+              local client = vim.lsp.get_client_by_id(args.data.client_id)
+              if client and client.name == "ruff" then
+                client.server_capabilities.hoverProvider = false
+              end
+            end,
+            desc = "LSP: Disable hover from Ruff (use Pyright)",
+          })
+
+          -- Pyright: organizeImports/분석 비활성화로 Ruff에 위임
+          vim.lsp.enable("basedpyright")
+          vim.lsp.config("basedpyright", {
+            capabilities = caps_utf16,
+            cmd = { "uvx", "--from", "basedpyright", "basedpyright-langserver", "--stdio" },
+            settings = {
+              pyright = {
+                disableOrganizeImports = true, -- Ruff가 담당
+              },
+              python = {
+                analysis = {
+                  ignore = { "*" }, -- 린팅은 Ruff만 사용
+                },
+              },
+            },
+          })
+
+          -- rust
           vim.lsp.enable("rust_analyzer")
-					vim.lsp.config("rust_analyzer", {
-						settings = {
-							["rust-analyzer"] = {
-								diagnostics = {
-									enable = false,
-								},
-							},
-						},
-					})
+          vim.lsp.config("rust_analyzer", {
+            capabilities = capabilities,
+            settings = {
+              ["rust-analyzer"] = {
+                diagnostics = {
+                  enable = false,
+                },
+              },
+            },
+          })
 
-					vim.diagnostic.config({
-						virtual_text = true,
-					})
+          vim.diagnostic.config({
+            virtual_text = true,
+          })
 
-					vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-					vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-					vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
-					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
-				end,
-			},
-		},
-	},
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+          vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
+          vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
+          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
+        end,
+      },
+    },
+  },
 }
