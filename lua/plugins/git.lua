@@ -1,5 +1,5 @@
 return {
-  {
+	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
 			require("gitsigns").setup({
@@ -89,7 +89,7 @@ return {
 					end)
 
 					map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "Stage buffer" })
-					map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "Reset buffer "})
+					map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "Reset buffer " })
 					map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Preview hunk" })
 					map("n", "<leader>hi", gitsigns.preview_hunk_inline, { desc = "Preview hunk inline" })
 
@@ -115,8 +115,8 @@ return {
 					-- Text object
 					map({ "o", "x" }, "ih", gitsigns.select_hunk)
 				end,
-      })
-      vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", {})
+			})
+			vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", {})
 			vim.keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>", {})
 		end,
 	},
