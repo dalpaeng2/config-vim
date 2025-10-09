@@ -12,6 +12,9 @@ o.shiftround = true
 o.copyindent = true          -- 기존 라인의 탭/스페이스 패턴을 복사
 o.preserveindent = true      -- 기존 들여쓰기 스타일 최대한 유지
 
+o.number = true
+o.relativenumber = true
+
 -- 가독성을 위한 특수문자 표시 (원하면 끄세요)
 o.list = true
 o.listchars = { tab = "»·", trail = "·", extends = "⟩", precedes = "⟨" }
