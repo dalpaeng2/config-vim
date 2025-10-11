@@ -1,15 +1,28 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		branch = "master",
+		branch = "main",
 		lazy = false,
 		build = ":TSUpdate",
 		config = function()
-			local config = require("nvim-treesitter.configs")
-			config.setup({
-				auto_install = true,
-				highlight = { enable = true },
-				indent = { enable = true },
+			require("nvim-treesitter").install({
+				"bash",
+				"dockerfile",
+				"fish",
+				"go",
+				"gomod",
+				"gosum",
+				"http",
+				"ini",
+				"javascript",
+				"lua",
+				"markdown",
+				"python",
+				"ruby",
+				"rust",
+				"toml",
+				"typescript",
+				"yaml",
 			})
 		end,
 	},
