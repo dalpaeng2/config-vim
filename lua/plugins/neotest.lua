@@ -18,6 +18,9 @@ return {
 				vim.system({ "go", "install", "gotest.tools/gotestsum@latest" }):wait() -- Optional, but recommended
 			end,
 		},
+		{
+			"volodya-lombrozo/neotest-ruby-minitest",
+		},
 	},
 	keys = {
 		{ "<leader>tr", "<cmd>Neotest run<cr>" },
@@ -25,12 +28,12 @@ return {
 		{ "<leader>ts", "<cmd>Neotest summary<cr>" },
 	},
 	config = function()
-		local config = {
-			runner = "gotestsum", -- Optional, but recommended
-		}
 		require("neotest").setup({
 			adapters = {
-				require("neotest-golang")(config),
+				require("neotest-golang")({
+					runner = "gotestsum",
+				}),
+				require("neotest-ruby-minitest"),
 			},
 		})
 	end,
