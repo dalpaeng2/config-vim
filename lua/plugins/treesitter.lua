@@ -5,7 +5,7 @@ return {
 		lazy = false,
 		build = ":TSUpdate",
 		opts = {
-			ensure_installed = { "lua", "go", "python", "javascript", "typescript" },
+			ensure_installed = { "lua", "go", "python", "javascript", "typescript", "ruby" },
 		},
 		config = function()
 			-- require("nvim-treesitter").install({
