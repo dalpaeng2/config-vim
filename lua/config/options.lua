@@ -44,6 +44,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"svelte",
 		"yaml",
 		"toml",
+		"ruby",
 	},
 	callback = function()
 		set_indent(2, 2, true)
@@ -52,7 +53,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- 4칸 스페이스: Python/백엔드/스크립트 계열
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "python", "ruby", "rust", "c", "cpp", "java", "sh", "zsh" },
+	pattern = { "python", "rust", "c", "cpp", "java", "sh", "zsh" },
 	callback = function()
 		set_indent(4, 4, true)
 	end,
