@@ -8,6 +8,9 @@ return {
 			"nvim-telescope/telescope.nvim",
 		},
 		opts = {
+			server = {
+				override = false,
+			},
 			document_color = {
 				enabled = true,
 				kind = "inline",
