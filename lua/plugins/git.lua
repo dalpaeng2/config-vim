@@ -66,7 +66,7 @@ return {
 						else
 							gitsigns.nav_hunk("next")
 						end
-					end)
+					end, { desc = "Next hunk" })
 
 					map("n", "[c", function()
 						if vim.wo.diff then
@@ -74,7 +74,7 @@ return {
 						else
 							gitsigns.nav_hunk("prev")
 						end
-					end)
+					end, { desc = "Prev hunk" })
 
 					-- Actions
 					map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "Stage hunk" })
@@ -82,11 +82,11 @@ return {
 
 					map("v", "<leader>hs", function()
 						gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
+					end, { desc = "Stage hunk" })
 
 					map("v", "<leader>hr", function()
 						gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
+					end, { desc = "Reset hunk" })
 
 					map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "Stage buffer" })
 					map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "Reset buffer " })
@@ -95,29 +95,29 @@ return {
 
 					map("n", "<leader>hb", function()
 						gitsigns.blame_line({ full = true })
-					end)
+					end, { desc = "Blame line (full)" })
 
-					map("n", "<leader>hd", gitsigns.diffthis)
+					map("n", "<leader>hd", gitsigns.diffthis, { desc = "Diff this" })
 
 					map("n", "<leader>hD", function()
 						gitsigns.diffthis("~")
-					end)
+					end, { desc = "Diff this ~" })
 
 					map("n", "<leader>hQ", function()
 						gitsigns.setqflist("all")
-					end)
-					map("n", "<leader>hq", gitsigns.setqflist)
+					end, { desc = "Quickfix all hunks" })
+					map("n", "<leader>hq", gitsigns.setqflist, { desc = "Quickfix hunks" })
 
 					-- Toggles
 					map("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "Toggle current line blame" })
 					map("n", "<leader>tw", gitsigns.toggle_word_diff, { desc = "Toggle word diff" })
 
 					-- Text object
-					map({ "o", "x" }, "ih", gitsigns.select_hunk)
+					map({ "o", "x" }, "ih", gitsigns.select_hunk, { desc = "Select hunk" })
 				end,
 			})
-			vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", {})
-			vim.keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>", {})
+			vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", { desc = "Preview hunk" })
+			vim.keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle line blame" })
 		end,
 	},
 }

@@ -16,7 +16,8 @@ return {
 		},
 	},
 	config = function()
-		require("which-key").setup({
+		local wk = require("which-key")
+		wk.setup({
 			plugins = {
 				spelling = { enabled = true },
 			},
@@ -26,6 +27,15 @@ return {
 			layout = {
 				align = "center",
 			},
+		})
+		wk.add({
+			{ "<leader>s", group = "Search" },
+			{ "<leader>h", group = "Git Hunk" },
+			{ "<leader>g", group = "Git" },
+			{ "<leader>d", group = "Debug" },
+			{ "<leader>t", group = "Test/Toggle" },
+			{ "<leader>b", group = "Buffer" },
+			{ "<leader>l", group = "LazyGit" },
 		})
 	end,
 }
