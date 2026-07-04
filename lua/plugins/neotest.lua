@@ -26,16 +26,21 @@ return {
 	keys = {
 		{ "<leader>tr", "<cmd>lua require('neotest').run.run()<cr>", desc = "Run nearest test" },
     { "<leader>tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", desc = "Run current file" },
-    -- { "<leader>ta", "<cmd>lua require('neotest').run.run(vim.fn.getcwd())<cr>", desc = "Run all tests" },
+    { "<leader>ta", "<cmd>lua require('neotest').run.run(vim.fn.getcwd())<cr>", desc = "Run all tests" },
     { "<leader>ts", "<cmd>lua require('neotest').summary.toggle()<cr>", desc = "Toggle summary" },
     { "<leader>to", "<cmd>lua require('neotest').output.open({ enter = true })<cr>", desc = "Show output" },
     { "<leader>tO", "<cmd>lua require('neotest').output_panel.toggle()<cr>", desc = "Toggle output panel" },
     { "<leader>tS", "<cmd>lua require('neotest').run.stop()<cr>", desc = "Stop test" },
     { "<leader>tw", "<cmd>lua require('neotest').watch.toggle()<cr>", desc = "Toggle watch" },
-		-- { "<leader>tc", "<cmd>lua require('neotest').output_panel.clear()<cr>", desc = "Clear output panel" },
-    -- { "<leader>tC", "<cmd>lua require('neotest').state.clear()<cr>", desc = "Clear all test results" },
+		{ "<leader>tc", "<cmd>lua require('neotest').output_panel.clear()<cr>", desc = "Clear output panel" },
+    { "<leader>tC", "<cmd>lua require('neotest').state.clear()<cr>", desc = "Clear all test results" },
 	},
 	config = function()
+		-- Workaround for neotest-ruby-minitest misreporting passing Rails
+		-- `test "..." do end` tests as failed; see lua/config/neotest_ruby_minitest_railsfix.lua
+		require("neotest-ruby-minitest.positions").discover_positions =
+			require("config.neotest_ruby_minitest_railsfix").discover_positions
+
 		require("neotest").setup({
 			adapters = {
 				require("neotest-golang")({
