@@ -15,6 +15,9 @@ o.preserveindent = true -- 기존 들여쓰기 스타일 최대한 유지
 o.number = true
 o.relativenumber = true
 
+-- 외부에서 파일이 수정됐을 때 자동으로 buffer reload
+o.autoread = true
+
 -- 가독성을 위한 특수문자 표시 (원하면 끄세요)
 o.list = true
 o.listchars = { tab = "»·", trail = "·", extends = "⟩", precedes = "⟨" }
@@ -92,5 +95,19 @@ vim.api.nvim_create_autocmd("FileType", {
 		lo.softtabstop = 0
 		lo.shiftwidth = 8
 		lo.expandtab = false -- Makefile은 탭 필수
+	end,
+})
+
+-- 포커스 전환/버퍼 진입/커서 정지 시점에 외부 변경 여부 체크 -> autoread 트리거
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+	pattern = "*",
+	command = "if mode() != 'c' | checktime | endif",
+})
+
+-- 실제로 리로드됐을 때 알림
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+	pattern = "*",
+	callback = function()
+		vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
 	end,
 })
