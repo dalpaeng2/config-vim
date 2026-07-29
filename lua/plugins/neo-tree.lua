@@ -9,6 +9,11 @@ return {
 		},
 		lazy = false, -- neo-tree will lazily load itself
 		config = function()
+			require("neo-tree").setup({
+				filesystem = {
+					use_libuv_file_watcher = true,
+				},
+			})
 			vim.keymap.set("n", "<C-n>", ":Neotree filesystem reveal left toggle<CR>", { desc = "Toggle file tree" })
 			vim.keymap.set("n", "<leader>bf", ":Neotree buffers reveal float<CR>", { desc = "Float buffers" })
 		end,
