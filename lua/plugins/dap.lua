@@ -11,6 +11,24 @@ return {
 			-- Mason integration for DAP
 			"jay-babu/mason-nvim-dap.nvim",
 		},
+		keys = {
+			"<leader>dc",
+			"<leader>dn",
+			"<leader>di",
+			"<leader>do",
+			"<leader>db",
+			"<leader>dB",
+			"<leader>dL",
+			"<leader>dC",
+			"<leader>du",
+			"<leader>dr",
+			"<leader>dl",
+			"<leader>dh",
+			"<leader>dp",
+			"<leader>de",
+			"<leader>dt",
+			"<leader>dq",
+		},
 		config = function()
 			local dap = require("dap")
 			local dapui = require("dapui")
