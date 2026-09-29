@@ -116,8 +116,6 @@ return {
 					map({ "o", "x" }, "ih", gitsigns.select_hunk, { desc = "Select hunk" })
 				end,
 			})
-			vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", { desc = "Preview hunk" })
-			vim.keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle line blame" })
 		end,
 	},
 }

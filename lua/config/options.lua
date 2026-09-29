@@ -14,6 +14,8 @@ o.preserveindent = true -- 기존 들여쓰기 스타일 최대한 유지
 
 o.number = true
 o.relativenumber = true
+o.signcolumn = "yes" -- 사인 표시로 본문이 밀리지 않게 고정
+o.updatetime = 250 -- CursorHold(LSP 하이라이트, checktime) 반응 속도
 
 -- 외부에서 파일이 수정됐을 때 자동으로 buffer reload
 o.autoread = true
