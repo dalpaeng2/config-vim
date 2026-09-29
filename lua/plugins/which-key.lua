@@ -36,6 +36,8 @@ return {
 			{ "<leader>t", group = "Test/Toggle" },
 			{ "<leader>b", group = "Buffer" },
 			{ "<leader>l", group = "LazyGit" },
+			{ "<leader>r", group = "Rust" },
+			{ "<leader>c", group = "Crates" },
 		})
 	end,
 }

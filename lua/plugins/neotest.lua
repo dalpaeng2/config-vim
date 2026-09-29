@@ -47,6 +47,7 @@ return {
 					runner = "gotestsum",
 				}),
 				require("neotest-ruby-minitest"),
+				require("rustaceanvim.neotest"),
 			},
 		})
 	end,
