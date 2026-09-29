@@ -17,6 +17,18 @@ o.relativenumber = true
 o.signcolumn = "yes" -- 사인 표시로 본문이 밀리지 않게 고정
 o.updatetime = 250 -- CursorHold(LSP 하이라이트, checktime) 반응 속도
 
+-- 편의 옵션
+o.undofile = true -- 파일을 닫았다 열어도 undo 기록 유지
+o.ignorecase = true -- 검색 시 대소문자 무시
+o.smartcase = true -- 단, 대문자가 포함되면 구분
+o.scrolloff = 8 -- 커서 위아래로 최소 8줄 여유
+o.splitright = true -- :vsplit은 오른쪽에
+o.splitbelow = true -- :split은 아래에
+-- 시스템 클립보드 연동 (시작 속도에 영향이 없도록 지연 설정)
+vim.schedule(function()
+	o.clipboard = "unnamedplus"
+end)
+
 -- 외부에서 파일이 수정됐을 때 자동으로 buffer reload
 o.autoread = true
 
