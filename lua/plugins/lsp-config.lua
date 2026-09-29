@@ -203,6 +203,9 @@ return {
 				},
 			})
 
+			-- Built-in LSP document colors (e.g. tailwindcss classes), shown as an inline swatch
+			vim.lsp.document_color.enable(true, nil, { style = "virtual" })
+
 			-- LSP servers and clients are able to communicate to each other what features they support.
 			--  By default, Neovim doesn't support everything that is in the LSP specification.
 			--  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
